@@ -102,5 +102,39 @@ describe("Acceptance Tests", () => {
                 expect(game.score.best).to.deep.equal(1)
             })
         })
+
+        describe("Game Over", () => {
+
+            beforeEach(async () => {
+                game = new Game()
+                game.state = new Ready()
+                game.deck = new Deck("testgame", [
+                    new FlashCard("What is 10 + 10?", "20"),
+                    new FlashCard("What is the sound of one hand clapping", "Yes?"),
+                    new FlashCard("But why?", "WHWAH?")
+                ])
+    
+                game.play()
+                game.answer("40")
+                game.next()
+                game.answer("Yes?")
+                game.next()
+                game.answer("Because")
+            })
+    
+    
+            it("should not be able to play again", () => {
+                game.next()
+                expect(game.currentCard).to.deep.equal(null)
+            })
+    
+            it("should give a score of 1", () => {
+                expect(game.score.current).to.deep.equal(1)
+            })
+    
+            it("should give a best possible score of 3", () => {
+                expect(game.score.best).to.deep.equal(3)
+            })
+        })
     })
 })

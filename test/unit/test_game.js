@@ -30,7 +30,7 @@ describe("Game Test", () => {
         expect(game.deck.cards.length).to.deep.equal(2)
     })
 
-    it("should be in question state when play is requested", async () => {
+    it("should be in play state when play is requested", async () => {
         await game.load("testgame")
         game.play()
 

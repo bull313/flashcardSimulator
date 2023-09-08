@@ -15,17 +15,26 @@ class Game {
     }
 
     play() {
-        this.state = new Play()
-        this.currentCard = this.deck.cards.shift()
+        this.updateState()
+        this.state.next(this)
     }
 
     updateScore() {
         this.score = this.state.updateScore(this.score)
     }
 
+    updateState() {
+        this.state = (this.deck.cards.length > 0) ? new Play() : new GameOver()
+    }
+
     answer(guess) {
         this.answeredCorrect = guess === this.currentCard.answer
         this.state = (this.answeredCorrect) ? new Correct() : new Incorrect()
         this.updateScore()
+    }
+
+    next() {
+        this.updateState()
+        this.state.next(this)
     }
 }
