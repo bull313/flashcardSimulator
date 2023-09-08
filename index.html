@@ -24,9 +24,38 @@
     <script src="../../src/script/gamestate/gameover.js"></script>
     <script src="../../src/script/gamefinder.js"></script>
     <script src="../../src/script/game.js"></script>
+    <script src="src/script/shuffle.js"></script>
     <script src="src/script/main.js"></script>
 </head>
 <body>
-    <h1>Test</h1>
+    <main>
+        <div id="load">
+            <h1>Select Deck to Test</h1>
+            <h2>Available Decks</h2>
+            <form action="." method="get" id="game-form">
+                <div id="game-list"></div>
+            </form>
+        </div>
+        <div id="game">
+            <h1 id="title">Game</h1>
+            <div id="question"></div>
+            <div id="answer-panel">
+                <div><input id="answer-field" type="text"></div>
+                <div id="correct-answer"><p></p></div>
+                <div>
+                    <button id="answer-submit">Answer</button>
+                    <button id="next">Next</button>
+                </div>
+            </div>
+        </div>
+        <div id="game-over">
+            <h1>Game Over!</h1>
+            <div>
+                <div><p>Final Score: </p>&nbsp;&nbsp;<p id="final-score">11 / 10</p></div>
+                <div><p>Percentage: </p>&nbsp;&nbsp;<p id="percentage">420.00%</p></div>
+                <div><p>Letter Grade: </p>&nbsp;&nbsp;<p id="letter-grade">C++</p></div>
+            </div>
+        </div>
+    </main>
 </body>
 </html>

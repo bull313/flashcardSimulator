@@ -23,7 +23,9 @@ class GameFinder {
 
     async find(subpath) {
         return this.parseToList(
-            await (await fetch(this.getFileListName(subpath))).text()
+            await (
+                await fetch(this.getFileListName(subpath ? subpath : ""))
+            ).text()
         )
     }
 }
