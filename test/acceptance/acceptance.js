@@ -1,15 +1,10 @@
 describe("Acceptance Tests", () => {
-    let game
-    let deck = new Deck("testgame", [
-        new FlashCard("What is 10 + 10?", "20"),
-        new FlashCard("What is the sound of one hand clapping", "Yes?"),
-        new FlashCard("But why?", "WHWAH?")
-    ])
+    var game
 
     describe("Load a Game", () => {
         const GAMEPATH = "test/testgame"
 
-        before(async () => {
+        beforeEach(async () => {
             game = new Game()
             await game.load(GAMEPATH)
         })
@@ -29,10 +24,14 @@ describe("Acceptance Tests", () => {
 
     describe("Play a Game", () => {
 
-        before(async () => {
+        beforeEach(async () => {
             game = new Game()
-            game.deck = deck
-            game.state = "ready"
+            game.state = new Ready()
+            game.deck = new Deck("testgame", [
+                new FlashCard("What is 10 + 10?", "20"),
+                new FlashCard("What is the sound of one hand clapping", "Yes?"),
+                new FlashCard("But why?", "WHWAH?")
+            ])
 
             game.play()
         })
@@ -41,16 +40,62 @@ describe("Acceptance Tests", () => {
             expect(game.currentCard.question).to.deep.equal("What is 10 + 10?")
         })
 
+        it("should have the corresponding answer available when moved to question state", () => {
+            expect(game.currentCard.answer).to.deep.equal("20")
+        })
+
         describe("Answer Correctly", () => {
+
+            beforeEach(async () => {
+                game = new Game()
+                game.state = new Ready()
+                game.deck = new Deck("testgame", [
+                    new FlashCard("What is 10 + 10?", "20"),
+                    new FlashCard("What is the sound of one hand clapping", "Yes?"),
+                    new FlashCard("But why?", "WHWAH?")
+                ])
     
-            it("should provide positive feedback when answer submitted is correct", () => {
+                game.play()
                 game.answer("20")
+            })
+    
+            it("should indicate answer submitted is correct", () => {
                 expect(game.answeredCorrect).to.deep.equal(true)
                 
             })
     
             it("should increment current score", () => {
                 expect(game.score.current).to.deep.equal(1)
+            })
+    
+            it("should increment the best possible score", () => {
+                expect(game.score.best).to.deep.equal(1)
+            })
+        })
+
+        describe("Answer Incorrectly", () => {
+
+            beforeEach(async () => {
+                game = new Game()
+                game.state = new Ready()
+                game.deck = new Deck("testgame", [
+                    new FlashCard("What is 10 + 10?", "20"),
+                    new FlashCard("What is the sound of one hand clapping", "Yes?"),
+                    new FlashCard("But why?", "WHWAH?")
+                ])
+    
+                game.play()
+                game.answer("40")
+            })
+    
+    
+            it("should indicate answer submitted is not correct", () => {
+                expect(game.answeredCorrect).to.deep.equal(false)
+                
+            })
+    
+            it("should not increment current score", () => {
+                expect(game.score.current).to.deep.equal(0)
             })
     
             it("should increment the best possible score", () => {

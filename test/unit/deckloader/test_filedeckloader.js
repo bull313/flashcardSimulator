@@ -15,7 +15,7 @@ class DummyDeckGenerator extends DeckGenerator {
 }
 
 describe("File Deck Loader Test", () => {
-    before(async () => {
+    beforeEach(async () => {
         loader = new FileDeckLoader(
             new DummyFileLoader(), new DummyDeckGenerator()
         )

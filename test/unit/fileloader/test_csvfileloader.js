@@ -10,7 +10,7 @@ var fileLoader
 var data
 
 describe("CSV File Loader Test", () => {
-    before(() => {
+    beforeEach(() => {
         fileLoader = new CSVFileLoader()
     })
 

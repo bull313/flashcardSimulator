@@ -10,7 +10,7 @@ class DummyDeckLoader extends DeckLoader {
 }
 
 describe("Game Test", () => {
-    before(() => {
+    beforeEach(() => {
         game = new Game(new DummyDeckLoader())
     })
 
@@ -56,7 +56,7 @@ describe("Game Test", () => {
         game.play()
         game.answer("test answer 1")
 
-        expect(game.state).to.deep.equal("correct")
+        expect(game.state.toString()).to.deep.equal("correct")
     })
 
     it("should set answer correct to true on correct answer", async () => {
@@ -79,6 +79,38 @@ describe("Game Test", () => {
         await game.load("testgame")
         game.play()
         game.answer("test answer 1")
+
+        expect(game.score.best).to.deep.equal(1)
+    })
+
+    it("should move to the incorrect state when wrong answer is submitted", async () => {
+        await game.load("testgame")
+        game.play()
+        game.answer("aslkdfjasd")
+
+        expect(game.state.toString()).to.deep.equal("incorrect")
+    })
+
+    it("should set answer correct to false on correct answer", async () => {
+        await game.load("testgame")
+        game.play()
+        game.answer("salkjflasdk")
+
+        expect(game.answeredCorrect).to.deep.equal(false)
+    })
+
+    it("should not increment user score on incorrect answer", async () => {
+        await game.load("testgame")
+        game.play()
+        game.answer("salkjflasdk")
+
+        expect(game.score.current).to.deep.equal(0)
+    })
+
+    it("should increment best score on incorrect answer", async () => {
+        await game.load("testgame")
+        game.play()
+        game.answer("salkjflasdk")
 
         expect(game.score.best).to.deep.equal(1)
     })

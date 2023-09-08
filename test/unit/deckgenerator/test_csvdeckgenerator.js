@@ -11,7 +11,7 @@ var generator
 var deck
 
 describe("CSV Deck Generator Test", () => {
-    before(() => {
+    beforeEach(() => {
         generator = new CSVDeckGenerator()
         deck = generator.generateDeck(NAME, DATA)
     })
