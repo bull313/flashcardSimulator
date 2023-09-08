@@ -1,8 +1,8 @@
 # Flash Card Simulator
 
 ## User Stories
+1. Load a game (deck)
+1. Guess a card - get it right
+1. Guess a card - get it wrong
+1. View right and wrong answers at the end
 1. Create a new deck
-2. Select a deck for testing
-3. Test a card - get it right
-4. Test a card - get it wrong
-5. View right and wrong cards at the end
