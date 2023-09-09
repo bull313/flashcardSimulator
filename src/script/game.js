@@ -5,6 +5,7 @@ class Game {
             || new FileDeckLoader(new CSVFileLoader(), new CSVDeckGenerator())
         this.deck = null
         this.currentCard = null
+        this.message = null
         this.answeredCorrect = null
         this.score = new Score()
     }
@@ -27,9 +28,17 @@ class Game {
         this.state = (this.deck.cards.length > 0) ? new Play() : new GameOver()
     }
 
-    answer(guess) {
-        this.answeredCorrect = guess === this.currentCard.answer
-        this.state = (this.answeredCorrect) ? new Correct() : new Incorrect()
+    flip() {
+        this.message = this.currentCard.answer
+    }
+
+    correct() {
+        this.state = new Correct()
+        this.updateScore()
+    }
+
+    incorrect() {
+        this.state = new Incorrect()
         this.updateScore()
     }
 

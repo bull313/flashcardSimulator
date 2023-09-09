@@ -6,5 +6,6 @@ class Play extends GameState {
     next(game) {
         game.state = new Play()
         game.currentCard = game.deck.cards.shift()
+        game.message = game.currentCard.question
     }
 }

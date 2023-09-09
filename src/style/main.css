@@ -1,11 +1,11 @@
-* {
+*, *:before, *:after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
 body {
-    font-family: sans-serif;
+    font-family: system-ui, sans-serif;
     font-size: 3rem;
     padding: 8rem;
     text-align: center;
@@ -21,13 +21,9 @@ h2 {
 
 #question {
     font-size: 10rem;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
     border: medium solid black;
     padding: 8rem;
-}
-
-#answer-panel div {
-    margin: 1rem;
 }
 
 input, button {
@@ -53,7 +49,7 @@ button:hover {
     display: inline-block;
 }
 
-form {
+#game-form {
     border: medium solid black;
     padding: 1rem;
 }
@@ -74,4 +70,42 @@ form {
 #correct-answer {
     font-weight: bold;
     font-style: oblique;
+}
+
+.message {
+    font-style: oblique;
+    margin-bottom: 2rem;
+}
+
+#card-face {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0.5rem;
+}
+
+#next {
+    margin-top: 2rem;
+}
+
+.howdoyoudo-radio {
+    display: none;
+}
+
+.howdoyoudo-label {
+    font-weight: bold;
+    font-size: 2.5rem;
+    cursor: pointer;
+    background-color: #800;
+    color: white;
+    padding: 1rem 2rem;
+    transition: 0.2s;
+}
+
+.howdoyoudo-label#label-correct {
+    background-color: #080;
+}
+
+.howdoyoudo-radio:checked + .howdoyoudo-label {
+    filter: brightness(150%);
+    font-size: 3rem;
 }

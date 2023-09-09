@@ -41,7 +41,7 @@ describe("Game Test", () => {
         await game.load("testgame")
         game.play()
 
-        expect(game.currentCard.question).to.deep.equal("test question 1")
+        expect(game.message).to.deep.equal("test question 1")
     })
 
     it("should have one fewer card in the deck when asking a question", async () => {
@@ -51,26 +51,26 @@ describe("Game Test", () => {
         expect(game.deck.cards.length).to.deep.equal(1)
     })
 
+    it("should reveal correct answer on flip", async () => {
+        await game.load("testgame")
+        game.play()
+        game.flip()
+
+        expect(game.message).to.deep.equal("test answer 1")
+    })
+
     it("should move to the correct state when matching answer is submitted", async () => {
         await game.load("testgame")
         game.play()
-        game.answer("test answer 1")
+        game.correct()
 
         expect(game.state.toString()).to.deep.equal("correct")
-    })
-
-    it("should set answer correct to true on correct answer", async () => {
-        await game.load("testgame")
-        game.play()
-        game.answer("test answer 1")
-
-        expect(game.answeredCorrect).to.deep.equal(true)
     })
 
     it("should increment user score on correct answer", async () => {
         await game.load("testgame")
         game.play()
-        game.answer("test answer 1")
+        game.correct()
 
         expect(game.score.current).to.deep.equal(1)
     })
@@ -78,7 +78,7 @@ describe("Game Test", () => {
     it("should increment best score on correct answer", async () => {
         await game.load("testgame")
         game.play()
-        game.answer("test answer 1")
+        game.correct()
 
         expect(game.score.best).to.deep.equal(1)
     })
@@ -86,23 +86,15 @@ describe("Game Test", () => {
     it("should move to the incorrect state when wrong answer is submitted", async () => {
         await game.load("testgame")
         game.play()
-        game.answer("aslkdfjasd")
+        game.incorrect()
 
         expect(game.state.toString()).to.deep.equal("incorrect")
-    })
-
-    it("should set answer correct to false on correct answer", async () => {
-        await game.load("testgame")
-        game.play()
-        game.answer("salkjflasdk")
-
-        expect(game.answeredCorrect).to.deep.equal(false)
     })
 
     it("should not increment user score on incorrect answer", async () => {
         await game.load("testgame")
         game.play()
-        game.answer("salkjflasdk")
+        game.incorrect()
 
         expect(game.score.current).to.deep.equal(0)
     })
@@ -110,7 +102,7 @@ describe("Game Test", () => {
     it("should increment best score on incorrect answer", async () => {
         await game.load("testgame")
         game.play()
-        game.answer("salkjflasdk")
+        game.incorrect()
 
         expect(game.score.best).to.deep.equal(1)
     })

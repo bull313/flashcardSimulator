@@ -36,12 +36,8 @@ describe("Acceptance Tests", () => {
             game.play()
         })
 
-        it("should have a question available when moved to question state", () => {
-            expect(game.currentCard.question).to.deep.equal("What is 10 + 10?")
-        })
-
-        it("should have the corresponding answer available when moved to question state", () => {
-            expect(game.currentCard.answer).to.deep.equal("20")
+        it("should have a question available as the message", () => {
+            expect(game.message).to.deep.equal("What is 10 + 10?")
         })
 
         describe("Answer Correctly", () => {
@@ -56,12 +52,8 @@ describe("Acceptance Tests", () => {
                 ])
     
                 game.play()
-                game.answer("20")
-            })
-    
-            it("should indicate answer submitted is correct", () => {
-                expect(game.answeredCorrect).to.deep.equal(true)
-                
+                game.flip()
+                game.correct()
             })
     
             it("should increment current score", () => {
@@ -70,6 +62,10 @@ describe("Acceptance Tests", () => {
     
             it("should increment the best possible score", () => {
                 expect(game.score.best).to.deep.equal(1)
+            })
+
+            it("should have the correct answer as the message", () => {
+                expect(game.message).to.deep.equal("20")
             })
         })
 
@@ -85,13 +81,8 @@ describe("Acceptance Tests", () => {
                 ])
     
                 game.play()
-                game.answer("40")
-            })
-    
-    
-            it("should indicate answer submitted is not correct", () => {
-                expect(game.answeredCorrect).to.deep.equal(false)
-                
+                game.flip()
+                game.incorrect()
             })
     
             it("should not increment current score", () => {
@@ -100,6 +91,10 @@ describe("Acceptance Tests", () => {
     
             it("should increment the best possible score", () => {
                 expect(game.score.best).to.deep.equal(1)
+            })
+
+            it("should have the correct answer as the message", () => {
+                expect(game.message).to.deep.equal("20")
             })
         })
 
@@ -115,11 +110,11 @@ describe("Acceptance Tests", () => {
                 ])
     
                 game.play()
-                game.answer("40")
+                game.incorrect()
                 game.next()
-                game.answer("Yes?")
+                game.correct()
                 game.next()
-                game.answer("Because")
+                game.incorrect()
             })
     
     

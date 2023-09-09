@@ -25,7 +25,7 @@ function togglePanelVisibility() {
     toggleVisibility("load", gameDeclared === false)
     toggleVisibility("game", gameDeclared === true)
     toggleVisibility("game-over", false)
-    toggleVisibility("next", false)
+    toggleVisibility("next-panel", false)
 }
 
 async function playGame() {
@@ -49,22 +49,23 @@ function updateQuestionBackground(color) {
 }
 
 function displayCard() {
-    let question = game.currentCard.question
+    let question = game.message
     updateQuestionBackground(QUESTION_BACKGROUND)
     writeTextToElement("question", question)
 }
 
 function enableNext() {
-    console.log(document.getElementById("answer-submit").style.backgroundColor)
-    toggleVisibility("next", true, true)
-    document.getElementById("answer-submit").style.backgroundColor = "#333"
-    document.getElementById("answer-submit").style.cursor = "not-allowed"
+    toggleVisibility("next-panel", true, true)
+    toggleVisibility("flip", false)
+    document.getElementById("flip").style.backgroundColor = "#333"
+    document.getElementById("flip").style.cursor = "not-allowed"
 }
 
 function disableNext() {
-    toggleVisibility("next", false)
-    document.getElementById("answer-submit").style.backgroundColor = "rgb(230, 230, 234)"
-    document.getElementById("answer-submit").style.cursor = "pointer"
+    toggleVisibility("next-panel", false)
+    toggleVisibility("flip", true, true)
+    document.getElementById("flip").style.backgroundColor = "rgb(230, 230, 234)"
+    document.getElementById("flip").style.cursor = "pointer"
 }
 
 function isAnswerState() {
@@ -75,17 +76,12 @@ function isNextState() {
     return game.state.toString() === "correct" || game.state.toString() === "incorrect"
 }
 
-function answer() {
+function flipCard() {
     if (isAnswerState()) {
-        let submission = document.getElementById("answer-field").value
-        game.answer(submission)
+        game.flip()
 
-        updateQuestionBackground(
-            (game.answeredCorrect) ? CORRECT_BACKGROUND : INCORRECT_BACKGROUND
-        )
-
-        writeTextToElement("correct-answer", `Correct Answer: ${game.currentCard.answer}`)
-        toggleVisibility("correct-answer", true, true)
+        writeTextToElement("question", game.message)
+        writeTextToElement("card-face", "Answer")
 
         enableNext()
     }
@@ -108,7 +104,7 @@ function getLetterGrade(percentage) {
     if (percentage >= 63) return "D"
     if (percentage >= 60) return "D-"
     
-    else return "Big ol' F"
+    else return "Big ol' jeFe"
 }
 
 function displayFinalScore() {
@@ -120,13 +116,18 @@ function displayFinalScore() {
 }
 
 function next() {
-    if (game.state.toString() === "correct" || game.state.toString() === "incorrect") {
+    if (game.state.toString() === "play") {
+        let howYouDo = document.getElementById("correct").checked
+
+        if (howYouDo) game.correct()
+        else game.incorrect()
+
         game.next()
-        toggleVisibility("correct-answer", false)
 
         if (game.state.toString() === "play") {
             displayCard()
             disableNext()
+            writeTextToElement("card-face", "Question")
         } else {
             toggleVisibility("game", false)
             toggleVisibility("game-over", true)
@@ -170,12 +171,11 @@ async function loadAvailableGames() {
 }
 
 function handleKeyboardInput(e) {
-    if (e.key === "Enter") {
+    if (e.key === " ") {
         if (isAnswerState()) {
-            answer()
+            flipCard()
         } else if (isNextState()) {
             next()
-            document.getElementById("answer-field").value = ""
         }
     }
 }
@@ -187,7 +187,7 @@ function main() {
 
     if (gameDeclared) {
         playGame()
-        document.getElementById("answer-submit").onclick = answer
+        document.getElementById("flip").onclick = flipCard
         document.getElementById("next").onclick = next
         document.onkeydown = handleKeyboardInput
     } else {

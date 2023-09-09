@@ -38,13 +38,21 @@
         </div>
         <div id="game">
             <h1 id="title">Game</h1>
+            <p id="card-face">Question</p>
             <div id="question"></div>
             <div id="answer-panel">
-                <div><input id="answer-field" type="text"></div>
-                <div id="correct-answer"><p></p></div>
                 <div>
-                    <button id="answer-submit">Answer</button>
-                    <button id="next">Next</button>
+                    <button id="flip">Flip</button>
+                    <div id="next-panel">
+                        <p class="message">How did you do?</p>
+                        <div id="howdoyoudo">
+                            <input type="radio" class="howdoyoudo-radio" name="howdoyoudo" id="correct">
+                            <label class="howdoyoudo-label" id="label-correct" for="correct">Correct</label>
+                            <input type="radio" class="howdoyoudo-radio" name="howdoyoudo" id="incorrect" checked="true">
+                            <label class="howdoyoudo-label" for="incorrect">Incorrect</label>
+                        </div>
+                        <button id="next">Next</button>
+                    </div>
                 </div>
             </div>
         </div>
