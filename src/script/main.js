@@ -57,15 +57,11 @@ function displayCard() {
 function enableNext() {
     toggleVisibility("next-panel", true, true)
     toggleVisibility("flip", false)
-    document.getElementById("flip").style.backgroundColor = "#333"
-    document.getElementById("flip").style.cursor = "not-allowed"
 }
 
 function disableNext() {
     toggleVisibility("next-panel", false)
     toggleVisibility("flip", true, true)
-    document.getElementById("flip").style.backgroundColor = "rgb(230, 230, 234)"
-    document.getElementById("flip").style.cursor = "pointer"
 }
 
 function isAnswerState() {

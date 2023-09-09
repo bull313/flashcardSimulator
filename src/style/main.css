@@ -31,7 +31,8 @@ input, button {
 }
 
 button {
-    padding: 2rem;
+    padding: 2rem 10rem;
+    border-radius: 5%;
     background-color: rgb(230, 230, 234);
 }
 
@@ -78,7 +79,7 @@ button:hover {
 }
 
 #card-face {
-    font-size: 2.5rem;
+    font-size: 4rem;
     font-weight: bold;
     margin: 0.5rem;
 }
@@ -108,4 +109,8 @@ button:hover {
 .howdoyoudo-radio:checked + .howdoyoudo-label {
     filter: brightness(150%);
     font-size: 3rem;
+}
+
+#flip {
+    margin-top: 2rem;
 }
