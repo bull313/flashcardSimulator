@@ -105,15 +105,7 @@ describe("Game Test", () => {
         describe("Game Next Question - After Correct Guess Test", () => {
             beforeEach(() => {
                 game.correct()
-                game.updateScore()
-            })
-
-            it("should increment user score on correct answer", () => {    
-                expect(game.score.current).to.deep.equal(1)
-            })
-    
-            it("should increment best score on correct answer", () => {     
-                expect(game.score.best).to.deep.equal(1)
+                game.next()
             })
     
             it("should move back to the ready state", () => {
@@ -130,15 +122,12 @@ describe("Game Test", () => {
         describe("Game Next Question - After Incorrect Guess Test", () => {
             beforeEach(() => {
                 game.incorrect()
-                game.updateScore()
+                game.next()
             })
 
-            it("should not increment user score on incorrect answer", () => {    
-                expect(game.score.current).to.deep.equal(0)
-            })
-    
-            it("should increment best score on incorrect answer", () => {     
-                expect(game.score.best).to.deep.equal(1)
+            it("should add the card to the incorrect pile", () => {
+                expect(game.incorrectPile.cards.at(-1).question).to.deep.equal("test question 1")
+                expect(game.incorrectPile.cards.at(-1).answer).to.deep.equal("test answer 1")
             })
     
             it("should move back to the ready state", () => {
@@ -152,17 +141,63 @@ describe("Game Test", () => {
         })
     })
 
+    describe("Round Over Test", () => {
+        beforeEach(async () => {
+            await game.load("testgame")
+            game.play()
+            game.flip()
+            game.correct()
+            game.next()
+            game.play()
+            game.flip()
+            game.incorrect()
+            game.next()
+            game.play()
+        })
+
+        it("should be on the round over state when questions have run out", () => {
+            expect(game.state.toString()).to.deep.equal("roundover")
+        })
+
+        describe("Move to Next Round Test", () => {
+            beforeEach(() => {
+                game.loadIncorrectCards()
+            })
+
+            it("should be in the ready state", () => {
+                expect(game.state.toString()).to.deep.equal("ready")
+            })
+
+            it("should load the incorrect cards into new deck for next round", () => {
+                expect(game.deck.cards.length).to.deep.equal(1)
+                expect(game.deck.cards[0].question).to.deep.equal("test question 2")
+                expect(game.deck.cards[0].answer).to.deep.equal("test answer 2")
+            })
+
+            it("should flush the incorrect pile", () => {
+                expect(game.incorrectPile.cards.length).to.deep.equal(0)
+            })
+        })
+    })
+
     describe("Game Over Test", () => {
         beforeEach(async () => {
             await game.load("testgame")
             game.play()
             game.flip()
             game.correct()
-            game.updateScore()
+            game.next()
             game.play()
             game.flip()
             game.incorrect()
-            game.updateScore()
+            game.next()
+            game.play()
+
+            game.loadIncorrectCards()
+            game.play()
+            game.flip()
+            game.correct()
+            game.next()
             game.play()
         })
 

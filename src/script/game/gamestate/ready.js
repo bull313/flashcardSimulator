@@ -9,7 +9,9 @@ class Ready extends GameState {
     }
 
     evaluateNewState(game) {
-        this.newState = (game.isGameOver()) ? new GameOver() : new Question()
+        this.newState = (game.isDeckEmpty()) ? (
+            (game.isIncorrectPileEmpty() ? new GameOver() : new RoundOver())
+        ) : new Question()
     }
 
     update(game) {

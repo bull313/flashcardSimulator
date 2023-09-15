@@ -114,3 +114,13 @@ button:hover {
 #flip {
     margin-top: 2rem;
 }
+
+#wrong-answers {
+    margin: 2rem auto;
+    border-collapse: collapse;
+}
+
+.wrong-answers-data {
+    padding: 1rem;
+    border: medium solid black;
+}

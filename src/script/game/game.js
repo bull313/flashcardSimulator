@@ -4,18 +4,22 @@ class Game {
         this.deckLoader = deckLoader
             || new FileDeckLoader(new CSVFileLoader(), new CSVDeckGenerator())
         this.deck = null
+        this.incorrectPile = new Deck("", [])
         this.currentCard = null
         this.message = null
         this.questionCorrect = null
-        this.score = new Score()
     }
 
     async load(deckName) {
         this.state = await this.state.update(this, deckName)
     }
 
-    isGameOver() {
+    isDeckEmpty() {
         return this.deck.cards.length <= 0
+    }
+
+    isIncorrectPileEmpty() {
+        return this.incorrectPile.cards.length <= 0
     }
 
     play() {
@@ -32,13 +36,16 @@ class Game {
         this.state = this.state.update(this)
     }
 
+    next() {
+        this.state = this.state.update(this)
+    }
+
     incorrect() {
         this.questionCorrect = false
         this.state = this.state.update(this)
     }
 
-    updateScore() {
+    loadIncorrectCards() {
         this.state = this.state.update(this)
-        this.questionCorrect = null
     }
 }

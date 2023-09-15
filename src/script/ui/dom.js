@@ -31,3 +31,33 @@ function writeGame(deckName) {
 
     document.getElementById("game-list").appendChild(gameButton)
 }
+
+function toggleRadioButtonCheck(id, isChecked) {
+    document.getElementById(id).checked = isChecked
+}
+
+function writeTableData(data) {
+    let td = document.createElement("td")
+    td.className = "wrong-answers-data"
+    td.appendChild(document.createTextNode(data))
+
+    return td
+}
+
+function writeTableRow(id, dataRows) {
+    let tr = document.createElement("tr")
+    let dataItems = dataRows.map(writeTableData)
+
+    tr.className = "wrong-answers-row"
+    
+    dataItems.forEach(td => { tr.appendChild(td) })
+
+    document.getElementById(id).appendChild(tr)
+}
+
+function clearTable(id) {
+    let table = document.getElementById(id)
+
+    while (table.childElementCount > 1)
+        table.removeChild(table.lastElementChild)
+}

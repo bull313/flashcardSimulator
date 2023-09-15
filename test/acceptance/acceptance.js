@@ -29,7 +29,8 @@ describe("Acceptance Tests", () => {
             game.deck = new Deck("testgame", [
                 new FlashCard("What is 10 + 10?", "20"),
                 new FlashCard("What is the sound of one hand clapping", "Yes?"),
-                new FlashCard("But why?", "WHWAH?")
+                new FlashCard("But why?", "WHWAH?"),
+                new FlashCard("Who cares?", "Me")
             ])
 
             game.play()
@@ -53,15 +54,16 @@ describe("Acceptance Tests", () => {
             beforeEach(() => {
                 game.flip()
                 game.correct()
-                game.updateScore()
+                game.next()
+                game.play()
+            })
+
+            it("should not add the previous card to the incorrect pile", () => {
+                expect(game.incorrectPile.cards.length).to.deep.equal(0)
             })
     
-            it("should increment current score", () => {
-                expect(game.score.current).to.deep.equal(1)
-            })
-    
-            it("should increment the best possible score", () => {
-                expect(game.score.best).to.deep.equal(1)
+            it("should provide the next question", () => {
+                expect(game.message).to.deep.equal("What is the sound of one hand clapping")
             })
         })
 
@@ -69,46 +71,132 @@ describe("Acceptance Tests", () => {
             beforeEach(() => {
                 game.flip()
                 game.incorrect()
-                game.updateScore()
+                game.next()
+                game.play()
             })
     
-            it("should not increment current score", () => {
-                expect(game.score.current).to.deep.equal(0)
+            it("should add the previous card to the incorrect pile", () => {
+                expect(game.incorrectPile.cards[0].question).to.deep.equal("What is 10 + 10?")
+                expect(game.incorrectPile.cards[0].answer).to.deep.equal("20")
             })
-    
-            it("should increment the best possible score", () => {
-                expect(game.score.best).to.deep.equal(1)
+
+            it("should provide the next question", () => {
+                expect(game.message).to.deep.equal("What is the sound of one hand clapping")
             })
         })
 
-        describe("Game Over", () => {
-            beforeEach(() => {
-                game.flip()
-                game.incorrect()
-                game.updateScore()
-                game.play()
+        describe("Rounds and Game Over Test", () => {
+            describe("Round 1 Test", () => {
+                beforeEach(() => {
+                    game.flip()
+                    game.correct()
+                    game.next()
+                    game.play()
+    
+                    game.flip()
+                    game.incorrect()
+                    game.next()
+                    game.play()
+    
+                    game.flip()
+                    game.correct()
+                    game.next()
+                    game.play()
+                    
+                    game.flip()
+                    game.incorrect()
+                    game.next()
+                    game.play()
+                })
 
-                game.flip()
-                game.correct()
-                game.updateScore()
-                game.play()
+                it("should not be able to play again", () => {
+                    expect(game.message).to.deep.equal(null)
+                })
+    
+                it("should start a new round with only the incorrect pile", () => {
+                    game.loadIncorrectCards()
+    
+                    expect(game.deck.cards.length).to.deep.equal(2)
+                    expect(game.deck.cards[0].question).to.deep.equal("What is the sound of one hand clapping")
+                    expect(game.deck.cards[0].answer).to.deep.equal("Yes?")
+                    expect(game.deck.cards[1].question).to.deep.equal("Who cares?")
+                    expect(game.deck.cards[1].answer).to.deep.equal("Me")
+                })
 
-                game.flip()
-                game.incorrect()
-                game.updateScore()
-                game.play()
-            })
+                describe("Round 2 Test", () => {
+                    beforeEach(() => {
+                        game.loadIncorrectCards()
+                        game.play()
+
+                        game.flip()
+                        game.correct()
+                        game.next()
+                        game.play()
+        
+                        game.flip()
+                        game.incorrect()
+                        game.next()
+                        game.play()
+                    })
     
-            it("should not be able to play again", () => {
-                expect(game.message).to.deep.equal(null)
-            })
+                    it("should not be able to play again", () => {
+                        expect(game.message).to.deep.equal(null)
+                    })
+        
+                    it("should start a new round with only the incorrect pile", () => {
+                        game.loadIncorrectCards()
+        
+                        expect(game.deck.cards.length).to.deep.equal(1)
+                        expect(game.deck.cards[0].question).to.deep.equal("Who cares?")
+                        expect(game.deck.cards[0].answer).to.deep.equal("Me")
+                    })
+
+                    describe("Round 3 Test", () => {
+                        beforeEach(() => {
+                            game.loadIncorrectCards()
+                            game.play()
     
-            it("should give a score of 1", () => {
-                expect(game.score.current).to.deep.equal(1)
-            })
-    
-            it("should give a best possible score of 3", () => {
-                expect(game.score.best).to.deep.equal(3)
+                            game.flip()
+                            game.incorrect()
+                            game.next()
+                            game.play()
+                        })
+        
+                        it("should not be able to play again", () => {
+                            expect(game.message).to.deep.equal(null)
+                        })
+            
+                        it("should start a new round with only the incorrect pile", () => {
+                            game.loadIncorrectCards()
+            
+                            expect(game.deck.cards.length).to.deep.equal(1)
+                            expect(game.deck.cards[0].question).to.deep.equal("Who cares?")
+                            expect(game.deck.cards[0].answer).to.deep.equal("Me")
+                        })
+
+                        describe("Round 4 Test", () => {
+                            beforeEach(() => {
+                                game.loadIncorrectCards()
+                                game.play()
+        
+                                game.flip()
+                                game.correct()
+                                game.next()
+                                game.play()
+                            })
+            
+                            it("should not be able to play again", () => {
+                                expect(game.message).to.deep.equal(null)
+                            })
+                
+                            it("should start a new round with only the incorrect pile", () => {
+                                game.loadIncorrectCards()
+                
+                                expect(game.deck.cards.length).to.deep.equal(0)
+                            })
+                        })
+                    })
+                })
             })
         })
     })

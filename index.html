@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="src/style/main.css">
     <script src="../../src/script/game/data/flashcard.js"></script>
     <script src="../../src/script/game/data/deck.js"></script>
-    <script src="../../src/script/game/data/score.js"></script>
 
     <script src="../../src/script/game/fileloader/fileloader.js"></script>
     <script src="../../src/script/game/fileloader/csvfileloader.js"></script>
@@ -26,6 +25,7 @@
     <script src="../../src/script/game/gamestate/answer.js"></script>
     <script src="../../src/script/game/gamestate/correct.js"></script>
     <script src="../../src/script/game/gamestate/incorrect.js"></script>
+    <script src="../../src/script/game/gamestate/roundover.js"></script>
     <script src="../../src/script/game/gamestate/gameover.js"></script>
 
     <script src="../../src/script/game/gamefinder.js"></script>
@@ -37,6 +37,7 @@
     <script src="src/script/ui/dom.js"></script>
     <script src="src/script/ui/gameclient.js"></script>
     <script src="src/script/ui/lettergrade.js"></script>
+    <script src="src/script/shuffle.js"></script>
     <script src="src/script/ui/main.js"></script>
 </head>
 <body>
@@ -50,6 +51,7 @@
         </div>
         <div id="game">
             <h1 id="title">Game</h1>
+            <h3 id="roundnum">Round 0</h3>
             <p id="card-face">Question</p>
             <div id="question"></div>
             <div id="answer-panel">
@@ -58,9 +60,9 @@
                     <div id="next-panel">
                         <p class="message">How did you do?</p>
                         <div id="howdoyoudo">
-                            <input type="radio" class="howdoyoudo-radio" name="howdoyoudo" id="correct">
+                            <input type="radio" class="howdoyoudo-radio" name="howdoyoudo" id="correct" checked="true">
                             <label class="howdoyoudo-label" id="label-correct" for="correct">Correct</label>
-                            <input type="radio" class="howdoyoudo-radio" name="howdoyoudo" id="incorrect" checked="true">
+                            <input type="radio" class="howdoyoudo-radio" name="howdoyoudo" id="incorrect">
                             <label class="howdoyoudo-label" for="incorrect">Incorrect</label>
                         </div>
                         <button id="next">Next</button>
@@ -68,13 +70,20 @@
                 </div>
             </div>
         </div>
+        <div id="round-over">
+            <h1>Round Over!</h1>
+            <h2>Cards You Missed</h2>
+            <table id="wrong-answers">
+                <tr class="wrong-answers-row">
+                    <th class="wrong-answers-data">Question</th>
+                    <th class="wrong-answers-data">Answer</th>
+                </tr>
+            </table>
+            <button id="next-round">Next Round</button>
+        </div>
         <div id="game-over">
             <h1>Game Over!</h1>
-            <div>
-                <div><p>Final Score: </p>&nbsp;&nbsp;<p id="final-score">11 / 10</p></div>
-                <div><p>Percentage: </p>&nbsp;&nbsp;<p id="percentage">420.00%</p></div>
-                <div><p>Letter Grade: </p>&nbsp;&nbsp;<p id="letter-grade">C++</p></div>
-            </div>
+            <h2>You Won! Thanks for playing.</h2>
         </div>
     </main>
 </body>

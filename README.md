@@ -17,3 +17,10 @@
 "question text here", "answer text here",
 "next question", "next answer"
 ```
+
+New notes:
+    * Show ones you got wrong
+        * mini review of the incorrect answers
+        * round 2
+        * random is a nice touch
+    * Add/delete cards and build decks

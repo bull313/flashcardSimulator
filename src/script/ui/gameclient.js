@@ -1,12 +1,14 @@
 var game
 
-async function playGame() {
+async function loadGame() {
     let gameName = getGameParam()
 
     game = new Game()
     await game.load(gameName)
+}
 
-    game.play()
+function shuffleCards() {
+    shuffle(game.deck.cards)
 }
 
 function isQuestionState() {
@@ -15,4 +17,8 @@ function isQuestionState() {
 
 function isAnswerState() {
     return game.state.toString() === "answer"
+}
+
+function isRoundOverState() {
+    return game.state.toString() === "roundover"
 }

@@ -3,12 +3,12 @@ class Incorrect extends GameState {
         return "incorrect"
     }
 
-    updateScore(game) {
-        ++game.score.best
+    addIncorrectCard(game) {
+        game.incorrectPile.cards.push(game.currentCard)
     }
 
     update(game) {
-        this.updateScore(game)
+        this.addIncorrectCard(game)
         return new Ready()
     }
 }

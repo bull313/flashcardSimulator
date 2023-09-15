@@ -1,3 +1,5 @@
+var round = 1
+
 function flipCard() {
     game.flip()
 
@@ -8,7 +10,9 @@ function flipCard() {
     toggleVisibility("flip", false)
 }
 
-
+function writeWrongCard(card) {
+    writeTableRow("wrong-answers", [ card.question, card.answer ])
+}
 
 function nextQuestion() {
     let howYouDo = document.getElementById("correct").checked
@@ -16,7 +20,7 @@ function nextQuestion() {
     if (howYouDo) game.correct()
     else game.incorrect()
 
-    game.updateScore()
+    game.next()
     game.play()
 
     if (isQuestionState()) {
@@ -25,26 +29,50 @@ function nextQuestion() {
         toggleVisibility("next-panel", false)
         toggleVisibility("flip", true, true)
         writeTextToElement("card-face", "Question")
+        toggleRadioButtonCheck("correct", true)
+    } else if (isRoundOverState()) {
+        toggleVisibility("game", false)
+        toggleVisibility("round-over", true)
+
+        game.incorrectPile.cards.forEach(writeWrongCard)
     } else {
         toggleVisibility("game", false)
         toggleVisibility("game-over", true)
-
-        let finalScore = tabulateFinalScore()
-        writeTextToElement("final-score", `${game.score.current} / ${game.score.best}`)
-        writeTextToElement("percentage", `${(finalScore).toFixed(2)}%`)
-        writeTextToElement("letter-grade", `${getLetterGrade(finalScore)}`)
     }
+}
+
+function nextRound() {
+    game.loadIncorrectCards()
+    shuffleCards()
+    game.play()
+
+    clearTable("wrong-answers")
+    toggleVisibility("round-over", false)
+
+    toggleVisibility("game", true)
+    writeTextToElement("roundnum", `Round #${round++}`)
+    writeTextToElement("question", game.message)
+
+    toggleVisibility("next-panel", false)
+    toggleVisibility("flip", true, true)
+    writeTextToElement("card-face", "Question")
+    toggleRadioButtonCheck("correct", true)
 }
 
 async function main() {
     toggleVisibility("load", isGameDeclared() === false)
     toggleVisibility("game", isGameDeclared() === true)
+    toggleVisibility("round-over", false)
     toggleVisibility("game-over", false)
     toggleVisibility("next-panel", false)
 
     if (isGameDeclared()) {
-        await playGame()
-        writeTextToElement("title", `Flash Card Game - ${gameName}`)
+        await loadGame()
+        shuffleCards()
+        game.play()
+
+        writeTextToElement("title", `Flash Card Game - ${getGameParam()}`)
+        writeTextToElement("roundnum", `Round #${round++}`)
         writeTextToElement("question", game.message)
 
         keyAction = () => {
@@ -57,6 +85,7 @@ async function main() {
 
         document.getElementById("flip").onclick = flipCard
         document.getElementById("next").onclick = nextQuestion
+        document.getElementById("next-round").onclick = nextRound
         document.onkeydown = handleKeyboardInput
 
     } else {
