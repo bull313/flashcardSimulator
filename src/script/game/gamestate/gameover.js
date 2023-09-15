@@ -3,7 +3,7 @@ class GameOver extends GameState {
         return "gameover"
     }
 
-    next(game) {
-        game.currentCard = null
+    update(game) {
+        return new GameOver()
     }
 }

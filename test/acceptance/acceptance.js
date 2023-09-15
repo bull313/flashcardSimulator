@@ -23,8 +23,7 @@ describe("Acceptance Tests", () => {
     })
 
     describe("Play a Game", () => {
-
-        beforeEach(async () => {
+        beforeEach(() => {
             game = new Game()
             game.state = new Ready()
             game.deck = new Deck("testgame", [
@@ -40,20 +39,21 @@ describe("Acceptance Tests", () => {
             expect(game.message).to.deep.equal("What is 10 + 10?")
         })
 
-        describe("Answer Correctly", () => {
+        describe("Flip the Card to Get the Answer", () => {
+            beforeEach(() => {
+                game.flip()
+            })
 
-            beforeEach(async () => {
-                game = new Game()
-                game.state = new Ready()
-                game.deck = new Deck("testgame", [
-                    new FlashCard("What is 10 + 10?", "20"),
-                    new FlashCard("What is the sound of one hand clapping", "Yes?"),
-                    new FlashCard("But why?", "WHWAH?")
-                ])
-    
-                game.play()
+            it("should show the correct answer", () => {
+                expect(game.message).to.deep.equal("20")
+            })
+        })
+
+        describe("Answer Correctly", () => {
+            beforeEach(() => {
                 game.flip()
                 game.correct()
+                game.updateScore()
             })
     
             it("should increment current score", () => {
@@ -63,26 +63,13 @@ describe("Acceptance Tests", () => {
             it("should increment the best possible score", () => {
                 expect(game.score.best).to.deep.equal(1)
             })
-
-            it("should have the correct answer as the message", () => {
-                expect(game.message).to.deep.equal("20")
-            })
         })
 
         describe("Answer Incorrectly", () => {
-
-            beforeEach(async () => {
-                game = new Game()
-                game.state = new Ready()
-                game.deck = new Deck("testgame", [
-                    new FlashCard("What is 10 + 10?", "20"),
-                    new FlashCard("What is the sound of one hand clapping", "Yes?"),
-                    new FlashCard("But why?", "WHWAH?")
-                ])
-    
-                game.play()
+            beforeEach(() => {
                 game.flip()
                 game.incorrect()
+                game.updateScore()
             })
     
             it("should not increment current score", () => {
@@ -92,35 +79,28 @@ describe("Acceptance Tests", () => {
             it("should increment the best possible score", () => {
                 expect(game.score.best).to.deep.equal(1)
             })
-
-            it("should have the correct answer as the message", () => {
-                expect(game.message).to.deep.equal("20")
-            })
         })
 
         describe("Game Over", () => {
-
-            beforeEach(async () => {
-                game = new Game()
-                game.state = new Ready()
-                game.deck = new Deck("testgame", [
-                    new FlashCard("What is 10 + 10?", "20"),
-                    new FlashCard("What is the sound of one hand clapping", "Yes?"),
-                    new FlashCard("But why?", "WHWAH?")
-                ])
-    
+            beforeEach(() => {
+                game.flip()
+                game.incorrect()
+                game.updateScore()
                 game.play()
-                game.incorrect()
-                game.next()
+
+                game.flip()
                 game.correct()
-                game.next()
+                game.updateScore()
+                game.play()
+
+                game.flip()
                 game.incorrect()
+                game.updateScore()
+                game.play()
             })
     
-    
             it("should not be able to play again", () => {
-                game.next()
-                expect(game.currentCard).to.deep.equal(null)
+                expect(game.message).to.deep.equal(null)
             })
     
             it("should give a score of 1", () => {
