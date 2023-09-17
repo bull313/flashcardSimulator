@@ -88,6 +88,7 @@ function addHotkeys() {
     addHotkey('W', () => invokeClick("incorrect"))
     addHotkey('I', () => invokeClick("incorrect"))
     addHotkey('Escape', returnToMainMenu, true)
+    addHotkey('O', refreshPage)
 }
 
 async function main() {

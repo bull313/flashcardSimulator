@@ -13,3 +13,7 @@ function returnToMainMenu() {
     window.location.href = getMainMenuURL()
     return false
 }
+
+function refreshPage() {
+    window.location.reload()
+}
