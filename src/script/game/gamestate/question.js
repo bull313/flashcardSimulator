@@ -4,6 +4,7 @@ class Question extends GameState {
     }
 
     update(game) {
+        game.questionCorrect = null
         game.message = game.currentCard.answer
         return new Answer();
     }

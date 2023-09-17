@@ -3,7 +3,19 @@ class Answer extends GameState {
         return "answer"
     }
 
+    questionAnswered(game) {
+        return game.questionCorrect !== null
+    }
+
+    answeredCorrectly(game)  {
+        return game.questionCorrect === true
+    }
+
     update(game) {
-        return (game.questionCorrect === true) ? new Correct() : new Incorrect()
+        game.message = game.currentCard.question
+
+        return this.questionAnswered(game) ? (
+            this.answeredCorrectly(game) ? new Correct() : new Incorrect()
+        ) : new Question()
     }
 }

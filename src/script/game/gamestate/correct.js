@@ -3,7 +3,7 @@ class Correct extends GameState {
         return "correct"
     }
 
-    update(game) {
+    update() {
         return new Ready()
     }
 }

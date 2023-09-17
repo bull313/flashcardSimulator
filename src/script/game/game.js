@@ -27,7 +27,6 @@ class Game {
     }
 
     flip() {
-        this.questionCorrect = null
         this.state = this.state.update(this)
     }
 

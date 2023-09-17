@@ -4,18 +4,22 @@ function flipCard() {
     game.flip()
 
     writeTextToElement("question", game.message)
-    writeTextToElement("card-face", "Answer")
 
-    toggleVisibility("next-panel", true, true)
-    toggleVisibility("flip", false)
+    invertVisibility("card-face-down")
+    invertVisibility("card-face-up")
+    invertVisibility("next-panel")
 }
 
 function writeWrongCard(card) {
     writeTableRow("wrong-answers", [ card.question, card.answer ])
 }
 
-function nextQuestion() {
-    let howYouDo = document.getElementById("correct").checked
+function correctButtonPressed(id) {
+    return id === "correct"
+}
+
+function nextQuestion(e) {
+    let howYouDo = correctButtonPressed(e.srcElement.id)
 
     if (howYouDo) game.correct()
     else game.incorrect()
@@ -28,17 +32,21 @@ function nextQuestion() {
 
         toggleVisibility("next-panel", false)
         toggleVisibility("flip", true, true)
-        writeTextToElement("card-face", "Question")
+        invertVisibility("card-face-down")
+        invertVisibility("card-face-up")
         toggleRadioButtonCheck("correct", true)
     } else if (isRoundOverState()) {
         toggleVisibility("game", false)
         toggleVisibility("round-over", true)
 
         game.incorrectPile.cards.forEach(writeWrongCard)
-    } else {
-        toggleVisibility("game", false)
-        toggleVisibility("game-over", true)
-    }
+    } else endGame()
+}
+
+function endGame() {
+    toggleVisibility("round-over", false)
+    toggleVisibility("game", false)
+    toggleVisibility("game-over", true)
 }
 
 function nextRound() {
@@ -55,13 +63,36 @@ function nextRound() {
 
     toggleVisibility("next-panel", false)
     toggleVisibility("flip", true, true)
-    writeTextToElement("card-face", "Question")
+    invertVisibility("card-face-down")
+    invertVisibility("card-face-up")
     toggleRadioButtonCheck("correct", true)
+}
+
+function masterKeyBehavior() {
+    if (isRoundOverState()) invokeClick("next-round")
+    else invokeClick("flip")
+}
+
+function addClickEvents() {
+    addClickEvent("flip", flipCard)
+    addClickEvent("correct", nextQuestion)
+    addClickEvent("incorrect", nextQuestion)
+    addClickEvent("next-round", nextRound)
+    addClickEvent("end-game", endGame)
+}
+
+function addHotkeys() {
+    addHotkey(' ', masterKeyBehavior)
+    addHotkey('R', () => invokeClick("correct"))
+    addHotkey('C', () => invokeClick("correct"))
+    addHotkey('W', () => invokeClick("incorrect"))
+    addHotkey('I', () => invokeClick("incorrect"))
 }
 
 async function main() {
     toggleVisibility("load", isGameDeclared() === false)
     toggleVisibility("game", isGameDeclared() === true)
+    toggleVisibility("card-face-up", false)
     toggleVisibility("round-over", false)
     toggleVisibility("game-over", false)
     toggleVisibility("next-panel", false)
@@ -75,19 +106,8 @@ async function main() {
         writeTextToElement("roundnum", `Round #${round++}`)
         writeTextToElement("question", game.message)
 
-        keyAction = () => {
-            if (isQuestionState()) {
-                flipCard()
-            } else if (isAnswerState()) {
-                nextQuestion()
-            }
-        }
-
-        document.getElementById("flip").onclick = flipCard
-        document.getElementById("next").onclick = nextQuestion
-        document.getElementById("next-round").onclick = nextRound
-        document.onkeydown = handleKeyboardInput
-
+        addClickEvents()
+        addHotkeys()
     } else {
         let gameFinder = new GameFinder()
         let games = await gameFinder.find()

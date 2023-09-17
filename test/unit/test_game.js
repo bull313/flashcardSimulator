@@ -58,12 +58,26 @@ describe("Game Test", () => {
             game.flip()
         })
 
+        it("should move to the answer state", () => {
+            expect(game.state.toString()).to.deep.equal("answer")
+        })
+
         it("should reveal correct answer on flip", () => {
             expect(game.message).to.deep.equal("test answer 1")
         })
 
-        it("should move to the answer state", () => {
-            expect(game.state.toString()).to.deep.equal("answer")
+        describe("Game Unflip Card State Test", () => {
+            beforeEach(() => {
+                game.flip()
+            })
+
+            it("should return to the question state", () => {
+                expect(game.state.toString()).to.deep.equal("question")
+            })
+
+            it("should re-show the same question as before", () => {
+                expect(game.message).to.deep.equal("test question 1")
+            })
         })
     })
 

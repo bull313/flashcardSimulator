@@ -18,9 +18,9 @@
 "next question", "next answer"
 ```
 
-New notes:
-    * Show ones you got wrong
-        * mini review of the incorrect answers
-        * round 2
-        * random is a nice touch
-    * Add/delete cards and build decks
+More highlight on correct/incorrect
+End game early feature
+Hotkey for correct/incorrect toggle: R/C/Y for right, W/I/N for wrong
+    Key will move next as well
+Add A hotkey for flip
+Q goes back to question

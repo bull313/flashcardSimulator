@@ -8,11 +8,12 @@ body {
     font-family: system-ui, sans-serif;
     font-size: 3rem;
     padding: 8rem;
+    padding-top: 2rem;
     text-align: center;
 }
 
 h1 {
-    margin-bottom: 5rem;
+    margin-bottom: 2rem;
 }
 
 h2 {
@@ -20,7 +21,7 @@ h2 {
 }
 
 #question {
-    font-size: 10rem;
+    font-size: 5rem;
     margin-bottom: 0.5rem;
     border: medium solid black;
     padding: 8rem;
@@ -78,37 +79,31 @@ button:hover {
     margin-bottom: 2rem;
 }
 
-#card-face {
+.card-face {
     font-size: 4rem;
     font-weight: bold;
     margin: 0.5rem;
 }
 
-#next {
-    margin-top: 2rem;
-}
-
-.howdoyoudo-radio {
-    display: none;
-}
-
-.howdoyoudo-label {
-    font-weight: bold;
-    font-size: 2.5rem;
-    cursor: pointer;
-    background-color: #800;
-    color: white;
+.howyoudo {
     padding: 1rem 2rem;
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: white;
     transition: 0.2s;
 }
 
-.howdoyoudo-label#label-correct {
+.howyoudo:hover {
+    filter: brightness(175%);
+    font-size: 4rem;
+}
+
+#correct {
     background-color: #080;
 }
 
-.howdoyoudo-radio:checked + .howdoyoudo-label {
-    filter: brightness(150%);
-    font-size: 3rem;
+#incorrect {
+    background-color: #800;
 }
 
 #flip {
@@ -123,4 +118,9 @@ button:hover {
 .wrong-answers-data {
     padding: 1rem;
     border: medium solid black;
+}
+
+.round-over-button {
+    padding: 2rem 4rem;
+    font-size: 5rem;
 }
