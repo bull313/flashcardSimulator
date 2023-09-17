@@ -87,6 +87,7 @@ function addHotkeys() {
     addHotkey('C', () => invokeClick("correct"))
     addHotkey('W', () => invokeClick("incorrect"))
     addHotkey('I', () => invokeClick("incorrect"))
+    addHotkey('Escape', returnToMainMenu, true)
 }
 
 async function main() {

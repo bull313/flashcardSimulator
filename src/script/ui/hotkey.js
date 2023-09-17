@@ -6,7 +6,7 @@ function handleHotkeys(e) {
 }
 
 function registerKeyEvent() {
-    document.onkeydown = handleHotkeys
+    document.onkeyup = handleHotkeys
 }
 
 function addHotkey(key, action, caseSensitive) {
