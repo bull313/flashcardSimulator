@@ -124,3 +124,45 @@ button:hover {
     padding: 2rem 4rem;
     font-size: 5rem;
 }
+
+#hotkey-help {
+    text-align: left;
+}
+
+#hotkey-container {
+    display: inline-block;
+}
+
+#hotkey-help-title {
+    font-style: oblique;
+    cursor: pointer;
+    background-color: #008;
+    color: white;
+    font-weight: bold;
+    display: inline-block;
+    padding: 1rem;
+    font-size: 2.5rem;
+    transition: 0.5s;
+}
+
+#hotkey-help-title:hover {
+    filter: brightness(200%);
+}
+
+#hotkey-container:hover #hotkey-menu {
+    display: block;
+}
+
+#hotkey-menu {
+    position: absolute;
+    font-size: 2rem;
+    display: none;
+    background-color: #00A;
+    color: white;
+    border-collapse: collapse;
+}
+
+#hotkey-menu tr, #hotkey-menu td {
+    padding: 0.1rem 1rem;
+    border: medium solid white;
+}
