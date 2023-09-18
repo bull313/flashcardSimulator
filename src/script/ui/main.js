@@ -10,8 +10,8 @@ function flipCard() {
     invertVisibility("next-panel")
 }
 
-function writeWrongCard(card) {
-    writeTableRow("wrong-answers", [ card.question, card.answer ])
+function writeWrongCard(card, idx) {
+    writeTableRow("wrong-answers", [ idx + 1, card.question, card.answer ])
 }
 
 function correctButtonPressed(id) {
@@ -26,6 +26,8 @@ function nextQuestion(e) {
 
     game.next()
     game.play()
+
+    updateProgress()
 
     if (isQuestionState()) {
         writeTextToElement("question", game.message)
@@ -49,10 +51,19 @@ function endGame() {
     toggleVisibility("game-over", true)
 }
 
+function updateProgress(updateDeck) {
+    if (updateDeck) updateDeckSize()
+    writeTextToElement("progress", `Card ${cardIdx} of ${deckSize}`)
+
+    updateProgressBar(cardIdx++ - 1, deckSize)
+}
+
 function nextRound() {
     game.loadIncorrectCards()
     shuffleCards()
     game.play()
+
+    updateProgress(true)
 
     clearTable("wrong-answers")
     toggleVisibility("round-over", false)
@@ -103,6 +114,8 @@ async function main() {
         await loadGame()
         shuffleCards()
         game.play()
+
+        updateProgress(true)
 
         writeTextToElement("title", `Flash Card Game - ${getGameParam()}`)
         writeTextToElement("roundnum", `Round #${round++}`)

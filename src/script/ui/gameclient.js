@@ -1,4 +1,6 @@
 var game
+var deckSize
+var cardIdx
 
 async function loadGame() {
     let gameName = getGameParam()
@@ -21,4 +23,9 @@ function isAnswerState() {
 
 function isRoundOverState() {
     return game.state.toString() === "roundover"
+}
+
+function updateDeckSize() {
+    deckSize = game.deck.cards.length + 1
+    cardIdx = 1
 }

@@ -44,6 +44,41 @@
 </head>
 <body>
     <main>
+        <div id="hotkey-help">
+            <div id="hotkey-container">
+                <p id="hotkey-help-title">Hotkeys</p>
+                <table id="hotkey-menu">
+                    <tr>
+                        <td>Space</td>
+                        <td>Flip/Unflip a card</td>
+                    </tr>
+                    <tr>
+                        <td>R</td>
+                        <td>Correct</td>
+                    </tr>
+                    <tr>
+                        <td>C</td>
+                        <td>Correct</td>
+                    </tr>
+                    <tr>
+                        <td>W</td>
+                        <td>Incorrect</td>
+                    </tr>
+                    <tr>
+                        <td>I</td>
+                        <td>Incorrect</td>
+                    </tr>
+                    <tr>
+                        <td>Escape</td>
+                        <td>Return to Main Menu</td>
+                    </tr>
+                    <tr>
+                        <td>O</td>
+                        <td>Restart this Game</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
         <div id="load">
             <h1>Select Deck to Test</h1>
             <h2>Available Decks</h2>
@@ -52,43 +87,12 @@
             </form>
         </div>
         <div id="game">
-            <div id="hotkey-help">
-                <div id="hotkey-container">
-                    <p id="hotkey-help-title">Hotkeys</p>
-                    <table id="hotkey-menu">
-                        <tr>
-                            <td>Space</td>
-                            <td>Flip/Unflip a card</td>
-                        </tr>
-                        <tr>
-                            <td>R</td>
-                            <td>Correct</td>
-                        </tr>
-                        <tr>
-                            <td>C</td>
-                            <td>Correct</td>
-                        </tr>
-                        <tr>
-                            <td>W</td>
-                            <td>Incorrect</td>
-                        </tr>
-                        <tr>
-                            <td>I</td>
-                            <td>Incorrect</td>
-                        </tr>
-                        <tr>
-                            <td>Escape</td>
-                            <td>Return to Main Menu</td>
-                        </tr>
-                        <tr>
-                            <td>O</td>
-                            <td>Restart this Game</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
             <h1 id="title">Game</h1>
             <h3 id="roundnum">Round 0</h3>
+            <p id="progress">Card X of Y</p>
+            <div id="progress-bar">
+                <div id="progress-bar-fill"></div>
+            </div>
             <p class="card-face" id="card-face-down">Question</p>
             <p class="card-face" id="card-face-up">Answer</p>
             <div id="question"></div>
@@ -108,6 +112,7 @@
             <h2>Cards You Missed</h2>
             <table id="wrong-answers">
                 <tr class="wrong-answers-row">
+                    <th class="wrong-answers-data">#</th>
                     <th class="wrong-answers-data">Question</th>
                     <th class="wrong-answers-data">Answer</th>
                 </tr>

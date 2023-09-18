@@ -61,3 +61,12 @@ function clearTable(id) {
     while (table.childElementCount > 1)
         table.removeChild(table.lastElementChild)
 }
+
+function updateProgressBar(value, max) {
+    let progressPercent = (value / max) * 100.0
+    let progressText = `${progressPercent.toFixed(0)}%`
+
+    document.getElementById("progress-bar-fill").style.width = progressText
+
+    writeTextToElement("progress-bar-fill", `${progressText}`)
+}
